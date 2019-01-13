@@ -1,0 +1,56 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+import serial
+import time
+
+ardunio=serial.Serial("COM6",9600)
+
+time.sleep(2)
+
+   
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+class Ui_Pencere(object):
+    def setupUi(self, Pencere):
+        Pencere.setObjectName("Pencere")
+        Pencere.resize(400, 300)
+        self.pushButton = QtWidgets.QPushButton(Pencere)
+        self.pushButton.setGeometry(QtCore.QRect(40, 100, 171, 101))
+        self.pushButton.setObjectName("pushButton")
+        self.pushButton_2 = QtWidgets.QPushButton(Pencere)
+        self.pushButton_2.setGeometry(QtCore.QRect(250, 100, 121, 91))
+        self.pushButton_2.setObjectName("pushButton_2")
+
+        self.retranslateUi(Pencere)
+        QtCore.QMetaObject.connectSlotsByName(Pencere)
+
+    def retranslateUi(self, Pencere):
+        _translate = QtCore.QCoreApplication.translate
+        Pencere.setWindowTitle(_translate("Pencere", "Led Kontrol"))
+        self.pushButton.setText(_translate("Pencere", "Led Yak"))
+        self.pushButton_2.setText(_translate("Pencere", "Led Söndür"))
+        self.pushButton.clicked.connect(self.komut1)
+        self.pushButton_2.clicked.connect(self.komut2)
+    
+    def komut1(self):
+        ardunio.write(bytes(1))
+        print("Led Yandı")
+
+    def komut2(self):
+        ardunio.write(bytes(2))
+        print("Led Söndü")
+    
+    
+    
+    
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    Pencere = QtWidgets.QWidget()
+    ui = Ui_Pencere()
+    ui.setupUi(Pencere)
+    Pencere.show()
+    sys.exit(app.exec_())
